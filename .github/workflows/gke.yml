@@ -54,10 +54,7 @@ jobs:
     # Build the Docker image
     - name: Build
       run: |-
-        docker-compose build \
-          --build-arg GITHUB_SHA="$GITHUB_SHA" \
-          --build-arg GITHUB_REF="$GITHUB_REF" \
-          .
+        ./scripts/build.sh
 
     # Push the Docker image to Google Container Registry
     - name: Publish

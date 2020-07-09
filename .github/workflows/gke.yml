@@ -25,7 +25,8 @@ env:
   GKE_ZONE: us-central1-f  # TODO: update to cluster zone
   IMAGE_BACKEND: backend       #preffered docker image name
   IMAGE_FRONTEND: frontend
-  TAG: gcr.io/${{ secrets.GKE_PROJECT }}/backend:$GITHUB_SHA
+  TAG: prod
+  FRONTEND_ENV: production
   
 
 jobs:

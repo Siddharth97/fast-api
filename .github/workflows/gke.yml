@@ -23,7 +23,8 @@ env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: cluster-1   # TODO: update to cluster name
   GKE_ZONE: us-central1-f  # TODO: update to cluster zone
-  IMAGE: gke-test       #preffered docker image name
+  IMAGE_BACKEND: backend       #preffered docker image name
+  IMAGE_FRONTEND: frontend
 
 jobs:
   setup-build-publish-deploy:
@@ -53,7 +54,11 @@ jobs:
     # Build the Docker image
     - name: Build
       run: |-
-        docker-compose build 
+        docker-compose build \
+          --tag "gcr.io/$PROJECT_ID/$IMAGE_BACKEND:$GITHUB_SHA" \
+          --build-arg GITHUB_SHA="$GITHUB_SHA" \
+          --build-arg GITHUB_REF="$GITHUB_REF" \
+          .
 
     # Push the Docker image to Google Container Registry
     - name: Publish

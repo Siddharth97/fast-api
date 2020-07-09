@@ -25,6 +25,7 @@ env:
   GKE_ZONE: us-central1-f  # TODO: update to cluster zone
   IMAGE_BACKEND: backend       #preffered docker image name
   IMAGE_FRONTEND: frontend
+  
 
 jobs:
   setup-build-publish-deploy:
@@ -60,7 +61,7 @@ jobs:
     # Push the Docker image to Google Container Registry
     - name: Publish
       run: |-
-        docker push "gcr.io/$PROJECT_ID/$IMAGE:$GITHUB_SHA"
+        docker-compose -f docker-compose.yml push
 
     # Set up kustomize
     - name: Set up Kustomize

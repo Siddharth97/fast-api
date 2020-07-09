@@ -25,7 +25,7 @@ env:
   GKE_ZONE: us-central1-f  # TODO: update to cluster zone
   IMAGE_BACKEND: backend       #preffered docker image name
   IMAGE_FRONTEND: frontend
-  TAG: gcr.io/${{ secrets.GKE_PROJECT }}/frontend:$GITHUB_SHA
+  TAG: prod
   FRONTEND_ENV: production
   
 
@@ -65,6 +65,7 @@ jobs:
     # Push the Docker image to Google Container Registry
     - name: Publish
       run: |-
+        docker tag backend gcr.io/$PROJECT_ID/backend:$GITHUB_SHA
         docker push "gcr.io/$PROJECT_ID/$IMAGE_BACKEND:$GITHUB_SHA"
 
     # Set up kustomize

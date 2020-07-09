@@ -57,11 +57,12 @@ jobs:
       run: |-
         chmod u+x ./scripts/build.sh 
         ./scripts/build.sh 
+        docker images
 
     # Push the Docker image to Google Container Registry
     - name: Publish
       run: |-
-        docker push "gcr.io/$PROJECT_ID/backend:$GITHUB_SHA"
+        docker push "latest"
 
     # Set up kustomize
     - name: Set up Kustomize

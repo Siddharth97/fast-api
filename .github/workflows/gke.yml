@@ -54,7 +54,7 @@ jobs:
     # Build the Docker image
     - name: Build
       run: |-
-        ./scripts/build.sh
+        chmod u+x ./scripts/build.sh
 
     # Push the Docker image to Google Container Registry
     - name: Publish

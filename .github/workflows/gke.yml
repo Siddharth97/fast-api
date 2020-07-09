@@ -61,7 +61,7 @@ jobs:
     # Push the Docker image to Google Container Registry
     - name: Publish
       run: |-
-        docker-compose -f docker-compose.yml push
+        docker-compose -f docker-compose.yml push "gcr.io/$PROJECT_ID/"
 
     # Set up kustomize
     - name: Set up Kustomize

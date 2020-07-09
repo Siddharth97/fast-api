@@ -55,7 +55,6 @@ jobs:
     - name: Build
       run: |-
         docker-compose build \
-          --tag "gcr.io/$PROJECT_ID/$IMAGE_BACKEND:$GITHUB_SHA" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" \
           .

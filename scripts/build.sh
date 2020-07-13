@@ -2,9 +2,9 @@
 
 # Exit in case of error
 set -x
+curl -L https://github.com/kubernetes/kompose/releases/download/v1.18.0/kompose-linux-amd64 -o kompose
 
-TAG=${TAG?Variable not set} \
-FRONTEND_ENV=${FRONTEND_ENV-production} \
-docker-compose \
--f docker-compose.yml \
-build
+chmod +x kompose
+sudo mv ./kompose /usr/local/bin/kompose
+kompose version
+kompose up

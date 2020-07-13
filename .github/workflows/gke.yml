@@ -58,6 +58,8 @@ jobs:
     - name: Build
       run: |-
         chmod u+x ./scripts/build.sh 
+        chmod u+x ./scripts/kompose.sh
+        ./scripts/kompose.sh
         ./scripts/build.sh 
         docker images
         echo $GITHUB_SHA

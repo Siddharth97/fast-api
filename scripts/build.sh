@@ -1,7 +1,10 @@
 #! /usr/bin/env sh
 
 # Exit in case of error
-set -e
+set -x
 
-curl -L https://github.com/kubernetes/kompose/releases/download/v1.21.0/kompose-linux-amd64 -o kompose
-kompose up
+TAG=${TAG?Variable not set} \
+FRONTEND_ENV=${FRONTEND_ENV-production} \
+docker-compose \
+-f docker-compose.yml \
+build

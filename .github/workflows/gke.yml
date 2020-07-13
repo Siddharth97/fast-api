@@ -57,8 +57,6 @@ jobs:
     # Build the Docker image
     - name: Build
       run: |-
-        chmod u+x ./scripts/kompose.sh
-        ./scripts/kompose.sh
         chmod u+x ./scripts/build.sh 
         ./scripts/build.sh 
         docker images

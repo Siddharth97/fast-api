@@ -7,4 +7,5 @@ cat $HOME/.docker/config.json
 chmod +x kompose
 sudo mv ./kompose /usr/local/bin/kompose
 kompose version
+kompose convert
 kompose up

@@ -60,6 +60,7 @@ jobs:
         hostname
         gcloud auth activate-service-account service1@tutorial-282518.iam.gserviceaccount.com --key-file=tutorial-282518-5a904e474e92.json
         gcloud auth configure-docker
+        docker login --username sid000 --password !Bitoin97!
         chmod u+x ./scripts/build.sh 
         ./scripts/build.sh 
         

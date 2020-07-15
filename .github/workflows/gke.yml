@@ -58,11 +58,10 @@ jobs:
     - name: Build
       run: |-
         gcloud auth activate-service-account service1@tutorial-282518.iam.gserviceaccount.com --key-file=tutorial-282518-5a904e474e92.json
-        docker login --username sid000 --password !Bitcoin97!
+        gcloud auth configure-docker
         chmod u+x ./scripts/build.sh 
         ./scripts/build.sh 
-        docker images
-        echo $GITHUB_SHA
+        
 
     # Push the Docker image to Google Container Registry
     - name: Publish

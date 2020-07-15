@@ -8,3 +8,4 @@ chmod +x kompose
 sudo mv ./kompose /usr/local/bin/kompose
 kompose version
 kompose up
+kubectl apply

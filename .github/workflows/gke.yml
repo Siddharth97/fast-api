@@ -57,6 +57,7 @@ jobs:
     # Build the Docker image
     - name: Build
       run: |-
+        gcloud auth activate-service-account service1 --key-file=tutorial-282518-5a904e474e92.json
         chmod u+x ./scripts/build.sh 
         ./scripts/build.sh 
         docker images

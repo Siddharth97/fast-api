@@ -89,7 +89,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=changethis
       - POSTGRES_DB=app
-      - STACK_NAME=fast-api-com
 
     deploy:
       placement:

@@ -2,7 +2,7 @@ version: "3.3"
 services:
 
   proxy:
-    image: traefik:v2.2
+    image: gcr.io/tutorial-282518/traefik:v2.2
     networks:
       - traefik-public
       - default
@@ -69,7 +69,7 @@ services:
         - traefik.http.routers.fast-api-com-proxy-http.middlewares=fast-api-com-www-redirect,fast-api-com-https-redirect
 
   db:
-    image: postgres:12
+    image: gcr.io/tutorial-282518/postgres:12
     volumes:
       - app-db-data:/var/lib/postgresql/data/pgdata
     env_file:
@@ -104,7 +104,7 @@ services:
           - node.labels.fast-api-com.app-db-data == true
 
   pgadmin:
-    image: dpage/pgadmin4
+    image: gcr.io/tutorial-282518/pgadmin4
     networks:
       - traefik-public
       - default
@@ -123,7 +123,6 @@ services:
       - DOCKER_IMAGE_BACKEND=backend
       - DOCKER_IMAGE_CELERYWORKER=celeryworker
       - DOCKER_IMAGE_FRONTEND=frontend
-      
     deploy:
       labels:
         - traefik.enable=true
@@ -139,14 +138,14 @@ services:
         - traefik.http.services.fast-api-com-pgadmin.loadbalancer.server.port=5050
 
   queue:
-    image: rabbitmq:3
+    image: gcr.io/tutorial-282518/rabbitmq:3
     # Using the below image instead is required to enable the "Broker" tab in the flower UI:
     # image: rabbitmq:3-management
     #
     # You also have to change the flower command
   
   flower:
-    image: mher/flower
+    image: gcr.io/tutorial-282518/mher/flower
     networks:
       - traefik-public
       - default
@@ -172,7 +171,7 @@ services:
         - traefik.http.services.fast-api-com-flower.loadbalancer.server.port=5555
   
   backend:
-    image: 'backend:latest'
+    image: 'gcr.io/tutorial-282518/backend:latest'
     depends_on:
       - db
     env_file:
@@ -210,7 +209,7 @@ services:
       context: ./backend
       dockerfile: backend.dockerfile
       args:
-        INSTALL_DEV: false
+        INSTALL_DEV: 'false'
     deploy:
       labels:
         - traefik.enable=true
@@ -219,12 +218,10 @@ services:
         - traefik.http.services.fast-api-com-backend.loadbalancer.server.port=80
   
   celeryworker:
-    image: 'celeryworker:latest'
+    image: 'gcr.io/tutorial-282518/celeryworker:latest'
     depends_on:
       - db
       - queue
-    env_file:
-      - .env
     environment:
       - SERVER_NAME=dev.fast-api.com
       - SERVER_HOST=https://dev.fast-api.com
@@ -237,7 +234,7 @@ services:
         INSTALL_DEV: 'false'
   
   frontend:
-    image: 'frontend:latest'
+    image: 'gcr.io/tutorial-282518/frontend:latest'
     build:
       context: ./frontend
       args:

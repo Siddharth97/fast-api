@@ -2,7 +2,7 @@ version: "3.3"
 services:
 
   proxy:
-    image: gcr.io/tutorial-282518/traefik:v2.2
+    image: traefik:v2.2
     networks:
       - traefik-public
       - default
@@ -69,27 +69,61 @@ services:
         - traefik.http.routers.fast-api-com-proxy-http.middlewares=fast-api-com-www-redirect,fast-api-com-https-redirect
 
   db:
-    image: gcr.io/tutorial-282518/postgres:12
+    image: postgres:12
     volumes:
       - app-db-data:/var/lib/postgresql/data/pgdata
     env_file:
       - .env
     environment:
+      - STACK_NAME=fast-api-com
+
+      - TRAEFIK_PUBLIC_NETWORK=traefik-public
+      - TRAEFIK_TAG=fast-api.com
+      - TRAEFIK_PUBLIC_TAG=traefik-public
+      
+      - DOCKER_IMAGE_BACKEND=backend
+      - DOCKER_IMAGE_CELERYWORKER=celeryworker
+      - DOCKER_IMAGE_FRONTEND=frontend
       - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_SERVER=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=changethis
+      - POSTGRES_DB=app
+      - STACK_NAME=fast-api-com
+
+      - TRAEFIK_PUBLIC_NETWORK=traefik-public
+      - TRAEFIK_TAG=fast-api.com
+      - TRAEFIK_PUBLIC_TAG=traefik-public
+      
+      - DOCKER_IMAGE_BACKEND=backend
+      - DOCKER_IMAGE_CELERYWORKER=celeryworker
+      - DOCKER_IMAGE_FRONTEND=frontend
     deploy:
       placement:
         constraints:
           - node.labels.fast-api-com.app-db-data == true
 
   pgadmin:
-    image: gcr.io/tutorial-282518/pgadmin4
+    image: dpage/pgadmin4
     networks:
       - traefik-public
       - default
     depends_on:
       - db
-    env_file:
-      - .env
+    environment:
+      - PGADMIN_LISTEN_PORT=5050
+      - PGADMIN_DEFAULT_EMAIL=admin@fast-api.com
+      - PGADMIN_DEFAULT_PASSWORD=changethis
+      - STACK_NAME=fast-api-com
+
+      - TRAEFIK_PUBLIC_NETWORK=traefik-public
+      - TRAEFIK_TAG=fast-api.com
+      - TRAEFIK_PUBLIC_TAG=traefik-public
+      
+      - DOCKER_IMAGE_BACKEND=backend
+      - DOCKER_IMAGE_CELERYWORKER=celeryworker
+      - DOCKER_IMAGE_FRONTEND=frontend
+      
     deploy:
       labels:
         - traefik.enable=true
@@ -105,19 +139,19 @@ services:
         - traefik.http.services.fast-api-com-pgadmin.loadbalancer.server.port=5050
 
   queue:
-    image: gcr.io/tutorial-282518/rabbitmq:3
+    image: rabbitmq:3
     # Using the below image instead is required to enable the "Broker" tab in the flower UI:
     # image: rabbitmq:3-management
     #
     # You also have to change the flower command
   
   flower:
-    image: gcr.io/tutorial-282518/mher/flower
+    image: mher/flower
     networks:
       - traefik-public
       - default
-    env_file:
-      - .env
+    environment:
+      - FLOWER_BASIC_AUTH=admin:changethis
     command:
       - "--broker=amqp://guest@queue:5672//"
       # For the "Broker" tab to work in the flower UI, uncomment the following command argument,
@@ -138,7 +172,7 @@ services:
         - traefik.http.services.fast-api-com-flower.loadbalancer.server.port=5555
   
   backend:
-    image: 'gcr.io/tutorial-282518/backend:latest'
+    image: 'backend:latest'
     depends_on:
       - db
     env_file:
@@ -148,11 +182,35 @@ services:
       - SERVER_HOST=https://dev.fast-api.com
       # Allow explicit env var override for tests
       - SMTP_HOST=
+      - BACKEND_CORS_ORIGINS=["http://localhost", "http://localhost:4200", "http://localhost:3000", "http://localhost:8080", "https://localhost", "https://localhost:4200", "https://localhost:3000", "https://localhost:8080", "http://dev.fast-api.com", "https://stag.fast-api.com", "https://fast-api.com", "http://local.dockertoolbox.tiangolo.com", "http://localhost.tiangolo.com"]
+      - PROJECT_NAME=Fast-API
+      - SECRET_KEY=changethis
+      - FIRST_SUPERUSER=admin@fast-api.com
+      - FIRST_SUPERUSER_PASSWORD=changethis
+      - SMTP_TLS=True
+      - SMTP_PORT=587
+      - SMTP_HOST=
+      - SMTP_USER=
+      - SMTP_PASSWORD=
+      - EMAILS_FROM_EMAIL=info@fast-api.com
+      
+      - USERS_OPEN_REGISTRATION=False
+      
+      - SENTRY_DSN=
+      - STACK_NAME=fast-api-com
+
+      - TRAEFIK_PUBLIC_NETWORK=traefik-public
+      - TRAEFIK_TAG=fast-api.com
+      - TRAEFIK_PUBLIC_TAG=traefik-public
+      
+      - DOCKER_IMAGE_BACKEND=backend
+      - DOCKER_IMAGE_CELERYWORKER=celeryworker
+      - DOCKER_IMAGE_FRONTEND=frontend
     build:
       context: ./backend
       dockerfile: backend.dockerfile
       args:
-        INSTALL_DEV: 'false'
+        INSTALL_DEV: false
     deploy:
       labels:
         - traefik.enable=true
@@ -161,7 +219,7 @@ services:
         - traefik.http.services.fast-api-com-backend.loadbalancer.server.port=80
   
   celeryworker:
-    image: 'gcr.io/tutorial-282518/celeryworker:latest'
+    image: 'celeryworker:latest'
     depends_on:
       - db
       - queue
@@ -176,10 +234,10 @@ services:
       context: ./backend
       dockerfile: celeryworker.dockerfile
       args:
-        INSTALL_DEV: 'false'
+        INSTALL_DEV: false
   
   frontend:
-    image: 'gcr.io/tutorial-282518/frontend:latest'
+    image: 'frontend:latest'
     build:
       context: ./frontend
       args:

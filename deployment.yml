@@ -14,8 +14,7 @@
 
 apiVersion: apps/v1beta1
 kind: Deployment
-metadata:
-  name: gke-test
+metadata:frontend-deployment
 spec:
   replicas: 1
   strategy:
@@ -26,11 +25,11 @@ spec:
   template:
     metadata:
       labels:
-        app: gke-test
+        io.kompose.service: frontend
     spec:
       containers:
-      - name: gke-test
-        image: gcr.io/PROJECT_ID/IMAGE:TAG
+      - name: frontend
+        image: gcr.io/tutorial-282518/frontend:latest
         ports:
         - containerPort: 5000
         resources:

@@ -234,7 +234,7 @@ services:
       context: ./backend
       dockerfile: celeryworker.dockerfile
       args:
-        INSTALL_DEV: false
+        INSTALL_DEV: 'false'
   
   frontend:
     image: 'frontend:latest'

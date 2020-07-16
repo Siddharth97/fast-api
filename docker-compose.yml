@@ -75,21 +75,7 @@ services:
     env_file:
       - .env
     environment:
-      - STACK_NAME=fast-api-com
-
-      - TRAEFIK_PUBLIC_NETWORK=traefik-public
-      - TRAEFIK_TAG=fast-api.com
-      - TRAEFIK_PUBLIC_TAG=traefik-public
-      
-      - DOCKER_IMAGE_BACKEND=backend
-      - DOCKER_IMAGE_CELERYWORKER=celeryworker
-      - DOCKER_IMAGE_FRONTEND=frontend
       - PGDATA=/var/lib/postgresql/data/pgdata
-      - POSTGRES_SERVER=db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=changethis
-      - POSTGRES_DB=app
-
     deploy:
       placement:
         constraints:
@@ -102,19 +88,8 @@ services:
       - default
     depends_on:
       - db
-    environment:
-      - PGADMIN_LISTEN_PORT=5050
-      - PGADMIN_DEFAULT_EMAIL=admin@fast-api.com
-      - PGADMIN_DEFAULT_PASSWORD=changethis
-      - STACK_NAME=fast-api-com
-
-      - TRAEFIK_PUBLIC_NETWORK=traefik-public
-      - TRAEFIK_TAG=fast-api.com
-      - TRAEFIK_PUBLIC_TAG=traefik-public
-      
-      - DOCKER_IMAGE_BACKEND=backend
-      - DOCKER_IMAGE_CELERYWORKER=celeryworker
-      - DOCKER_IMAGE_FRONTEND=frontend
+    env_file:
+      - .env
     deploy:
       labels:
         - traefik.enable=true
@@ -141,8 +116,8 @@ services:
     networks:
       - traefik-public
       - default
-    environment:
-      - FLOWER_BASIC_AUTH=admin:changethis
+    env_file:
+      - .env
     command:
       - "--broker=amqp://guest@queue:5672//"
       # For the "Broker" tab to work in the flower UI, uncomment the following command argument,
@@ -173,29 +148,6 @@ services:
       - SERVER_HOST=https://dev.fast-api.com
       # Allow explicit env var override for tests
       - SMTP_HOST=
-      - BACKEND_CORS_ORIGINS=["http://localhost", "http://localhost:4200", "http://localhost:3000", "http://localhost:8080",  "http://dev.fast-api.com", "https://stag.fast-api.com", "https://fast-api.com", "http://local.dockertoolbox.tiangolo.com", "http://localhost.tiangolo.com"]
-      - PROJECT_NAME=Fast-API
-      - SECRET_KEY=changethis
-      - FIRST_SUPERUSER=admin@fast-api.com
-      - FIRST_SUPERUSER_PASSWORD=changethis
-      - SMTP_TLS=True
-      - SMTP_PORT=587
-      - SMTP_USER=
-      - SMTP_PASSWORD=
-      - EMAILS_FROM_EMAIL=info@fast-api.com
-      
-      - USERS_OPEN_REGISTRATION=False
-      
-      - SENTRY_DSN=
-      - STACK_NAME=fast-api-com
-
-      - TRAEFIK_PUBLIC_NETWORK=traefik-public
-      - TRAEFIK_TAG=fast-api.com
-      - TRAEFIK_PUBLIC_TAG=traefik-public
-      
-      - DOCKER_IMAGE_BACKEND=backend
-      - DOCKER_IMAGE_CELERYWORKER=celeryworker
-      - DOCKER_IMAGE_FRONTEND=frontend
     build:
       context: ./backend
       dockerfile: backend.dockerfile
@@ -213,6 +165,8 @@ services:
     depends_on:
       - db
       - queue
+    env_file:
+      - .env
     environment:
       - SERVER_NAME=dev.fast-api.com
       - SERVER_HOST=https://dev.fast-api.com

@@ -1,0 +1,58 @@
+apiVersion: apps/v1beta1
+
+-Deployment Config, Update for changing things like replicas, cpu, ports, exposing cluster etc-----------------------------------------------------------------
+###############################################################################################################################################################
+kind: Deployment
+metadata:
+  name: frontend-deployment
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        io.kompose.service: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: gcr.io/tutorial-282518/frontend:latest
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            cpu: 100m
+          limits:
+            cpu: 100m
+
+
+
+#Backend deployment day2 test config
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        io.kompose.service: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: gcr.io/tutorial-282518/frontend:latest
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            cpu: 100m
+          limits:
+            cpu: 100m

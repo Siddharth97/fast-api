@@ -1,9 +1,9 @@
 apiVersion: apps/v1beta1
-kind: Deployment
+kind: service
 metadata:
   name: frontend-deployment
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     rollingUpdate:
       maxSurge: 1

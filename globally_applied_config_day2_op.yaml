@@ -44,8 +44,8 @@ spec:
         io.kompose.service: backend
     spec:
       containers:
-      - name: frontend
-        image: gcr.io/tutorial-282518/frontend:latest
+      - name: backend
+        image: gcr.io/tutorial-282518/backend:latest
         ports:
         - containerPort: 5000
         resources:

@@ -1,7 +1,4 @@
 apiVersion: apps/v1beta1
-
--Deployment Config, Update for changing things like replicas, cpu, ports, exposing cluster etc-----------------------------------------------------------------
-###############################################################################################################################################################
 kind: Deployment
 metadata:
   name: frontend-deployment
@@ -44,7 +41,7 @@ spec:
   template:
     metadata:
       labels:
-        io.kompose.service: frontend
+        io.kompose.service: backend
     spec:
       containers:
       - name: frontend

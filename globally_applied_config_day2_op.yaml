@@ -18,7 +18,7 @@ spec:
       - name: frontend
         image: gcr.io/tutorial-282518/frontend:latest
         ports:
-        - containerPort: 5000
+        - containerPort: 80
         resources:
           requests:
             cpu: 100m
@@ -47,7 +47,7 @@ spec:
       - name: backend
         image: gcr.io/tutorial-282518/backend:latest
         ports:
-        - containerPort: 5000
+        - containerPort: 4000
         resources:
           requests:
             cpu: 100m

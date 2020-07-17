@@ -32,7 +32,7 @@ kind: Deployment
 metadata:
   name: backend
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -47,7 +47,7 @@ spec:
       - name: backend
         image: gcr.io/tutorial-282518/backend:latest
         ports:
-        - containerPort: 4000
+        - containerPort: 5000
         resources:
           requests:
             cpu: 100m

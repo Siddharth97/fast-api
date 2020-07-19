@@ -3,6 +3,11 @@ kind: Ingress
 metadata:
   name: basic-ingress
 spec:
-  frontend:
-    serviceName: frontend-deployment
-    servicePort: 8080
+  rules:
+  - host: hostname
+    http:
+      paths:
+      - backend:
+          serviceName: frontend-deployment
+          servicePort: 8080
+        path: /(.*)

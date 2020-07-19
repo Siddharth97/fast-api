@@ -9,5 +9,6 @@ spec:
     protocol: TCP
     targetPort: 8080
   selector:
-    run: frontend
+    labels:
+        io.kompose.service: frontend
   type: LoadBalancer

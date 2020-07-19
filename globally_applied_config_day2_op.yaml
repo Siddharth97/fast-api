@@ -12,12 +12,13 @@ spec:
   template:
     metadata:
       labels:
-        io.kompose.service: frontend
+        io.kompose.service: frontend-deployment
     spec:
       containers:
-      - name: frontend
+      - name: frontend-deployment
         image: gcr.io/tutorial-282518/frontend:latest
-        env:
-        - name: "PORT"
-          value: "50001"
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+
             

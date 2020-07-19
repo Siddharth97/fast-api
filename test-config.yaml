@@ -3,6 +3,6 @@ kind: Ingress
 metadata:
   name: basic-ingress
 spec:
-  backend:
+  frontend:
     serviceName: frontend-deployment
     servicePort: 8080

@@ -27,7 +27,7 @@ spec:
             
 #Backend deployment day2 test config
 apiVersion: apps/v1beta1
-kind: Service
+kind: Deployment
 metadata:
   name: backend
 spec:

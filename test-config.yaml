@@ -11,3 +11,6 @@ spec:
           serviceName: frontend-deployment
           servicePort: 8080
         path: /(.*)
+      - backend:
+          serviceName: backend
+          servicePort: 5000

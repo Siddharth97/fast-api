@@ -11,9 +11,8 @@ spec:
   minReadySeconds: 5
   template:
     metadata:
-      selector:
-    matchLabels:
-      app: frontend-service 
+      labels:
+        io.kompose.service: frontend
     spec:
       containers:
       - name: frontend

@@ -1,5 +1,5 @@
-apiVersion: apps/v1beta1s
-kind: service
+apiVersion: apps/v1beta
+kind: deployment
 metadata:
   name: frontend-deployment
 spec:

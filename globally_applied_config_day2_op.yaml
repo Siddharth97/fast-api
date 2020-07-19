@@ -1,5 +1,5 @@
-apiVersion: apps/v1
-kind: deployment
+apiVersion: apps/v1beta1s
+kind: service
 metadata:
   name: frontend-deployment
 spec:
@@ -25,3 +25,31 @@ spec:
           limits:
             cpu: 100m
 
+
+
+#Backend deployment day2 test config
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        io.kompose.service: backend
+    spec:
+      containers:
+      - name: backend
+        image: gcr.io/tutorial-282518/backend:latest
+        ports:
+        - containerPort: 5000
+        resources:
+          requests:
+            cpu: 100m
+          limits:
+            cpu: 100m

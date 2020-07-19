@@ -4,9 +4,8 @@ metadata:
   name: my-lb-service
 spec:
   type: LoadBalancer
-  metadata:
-      labels:
-        io.kompose.service: frontend
+  selector:
+    io.kompose.service: frontend
   ports:
   - protocol: TCP
     port: 60000

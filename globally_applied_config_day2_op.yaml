@@ -12,7 +12,7 @@ spec:
   template:
     metadata:
       labels:
-        io.kompose.service: frontend
+        app: frontend-test
     spec:
       containers:
       - name: frontend

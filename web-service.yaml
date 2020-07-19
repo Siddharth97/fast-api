@@ -9,5 +9,5 @@ spec:
     protocol: TCP
     targetPort: 8080
   selector:
-    run: frontend-deployment
+    app: frontend-service
   type: NodePort

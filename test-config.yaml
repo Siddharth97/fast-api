@@ -1,13 +1,8 @@
-apiVersion: v1
-kind: Service
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
 metadata:
-  name: my-lb-service
+  name: basic-ingress
 spec:
-  type: LoadBalancer
-  selector:
-    io.kompose.service: frontend
-  ports:
-  - protocol: TCP
-    port: 5000
-    targetPort: 5000
-    
+  backend:
+    serviceName: frontend-deployment
+    servicePort: 8080

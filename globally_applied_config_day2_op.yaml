@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+apiVersion: apps/v1beta1
 kind: service
 metadata:
   name: frontend-deployment
@@ -24,6 +24,4 @@ spec:
             cpu: 100m
           limits:
             cpu: 100m
-
-
 
